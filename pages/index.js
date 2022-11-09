@@ -1,9 +1,9 @@
 import React from "react";
-import Favorites from "./components/Favorites";
-import Header from "./components/Header";
-import Menu from "./components/Menu";
-import Timeline from "./components/Timeline";
 import { CSSReset } from "../src/components/CSSReset";
+import Menu from "../src/components/Menu";
+import Header from "../src/components/Header";
+import Timeline from "../src/components/Timeline";
+import Favorites from "../src/components/Favorites";
 
 function HomePage() {
 	const [searchValue, setSearchValue] = React.useState("");

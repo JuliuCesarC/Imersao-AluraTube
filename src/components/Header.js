@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import config from "../../config.json";
-import { StyledHeader } from "../../src/components/StyledHeader";
+import { StyledHeader } from "./StyledHeader";
 
 const StyledBanner = styled.div`
 /* background-image: url(${config.banner}); */

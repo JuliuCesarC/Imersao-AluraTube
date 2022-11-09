@@ -1,6 +1,8 @@
+import Logo from "../logo";
+import Search from "./components/Search";
 import styled from "styled-components";
 
-export const StyledMenu = styled.nav`
+const StyledMenu = styled.nav`
 	display: flex;
 	flex-direction: row;
 	height: 56px;
@@ -50,3 +52,31 @@ export const StyledMenu = styled.nav`
 		left: 25.5px;
 	}
 `;
+function Menu({ searchValue, setSearchValue, theme, changeTheme }) {
+	return (
+		<StyledMenu theme={theme}>
+			<div>
+				<Logo />
+			</div>
+			<Search
+				theme={theme}
+				searchValue={searchValue}
+				setSearchValue={setSearchValue}
+			/>
+			<button
+				id="ChangeColorTheme"
+				onClick={(e) => {
+					let btn = document.getElementById('ChangeColorTheme')
+					theme
+						? btn.classList.remove("Dark")
+						: btn.classList.add("Dark");
+					changeTheme();
+				}}
+			>
+				🌞 🌙
+				<div></div>
+			</button>
+		</StyledMenu>
+	);
+}
+export default Menu;

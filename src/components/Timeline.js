@@ -1,4 +1,4 @@
-import { StyledTimeline } from "../../src/components/StyledTimeline";
+import { StyledTimeline } from "./StyledTimeline";
 import config from "../../config.json";
 
 function Timeline(props) {
