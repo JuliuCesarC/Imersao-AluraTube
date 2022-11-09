@@ -1,5 +1,5 @@
 import config from "../../config.json";
-import { StyledHeader } from "../styles/StyledHeader";
+import { StyledHeader } from "../../src/components/StyledHeader";
 
 function Header() {
 	return (

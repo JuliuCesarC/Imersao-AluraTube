@@ -1,4 +1,4 @@
-import { StyledTimeline } from "../styles/StyledTimeline";
+import { StyledTimeline } from "../../src/components/StyledTimeline";
 import config from "../../config.json";
 
 function Timeline() {

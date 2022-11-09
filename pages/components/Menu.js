@@ -1,7 +1,7 @@
 import Logo from "../../public/logo/Logo";
-import { StyledMenu } from "../styles/StyledMenu";
+import { StyledMenu } from "../../src/components/StyledMenu";
 
-export default function Menu() {
+function Menu() {
 	return (
 		<StyledMenu>
 			<div>
@@ -10,3 +10,4 @@ export default function Menu() {
 		</StyledMenu>
 	);
 }
+export default Menu
