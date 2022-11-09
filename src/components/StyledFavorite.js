@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const FavoriteDiv = styled.div`
 	width: 100%;
 	padding: 10px 20px;
+	background-color: ${({theme})=> theme.backgroundBase || "#F9F9F9"};
+	color: ${({theme})=> theme.textColorBase || "#222"};
+	transition: background-color .2s;
 	h3 {
 		margin-bottom: 15px;
 	}

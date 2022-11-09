@@ -1,19 +1,16 @@
 import config from "../../config.json"
 import { FavoriteDiv } from "../../src/components/StyledFavorite";
 
-function Favorites() {
+function Favorites({theme}) {
 	const AluraTube = config.aluratube;
 
-	function randomID() {
-		return Math.random().toString(36).substring(2, 9);
-	}
 	return (
-		<FavoriteDiv>
+		<FavoriteDiv theme={theme}>
 			<h3>AluraTubes favoritos!</h3>
 			<div className="Card">
 				{AluraTube.map((fav) => {
 					return (
-						<a href={fav.link} target="_blank" key={randomID()}>
+						<a href={fav.link} target="_blank" key={fav.link}>
 							<img src={fav.img} alt="Foto Perfil" />
 							{fav.name}
 						</a>

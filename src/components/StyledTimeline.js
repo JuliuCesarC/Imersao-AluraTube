@@ -5,6 +5,9 @@ export const StyledTimeline = styled.div`
 	width: 100%;
 	padding: 16px;
 	overflow: hidden;
+	background-color: ${({ theme }) => theme.backgroundBase || "#F9F9F9"};
+	color: ${({ theme }) => theme.textColorBase || "#222222"};
+	transition: all .2s;
 	h2 {
 		font-size: 16px;
 		margin-bottom: 16px;
@@ -18,13 +21,29 @@ export const StyledTimeline = styled.div`
 		max-width: 210px;
 		height: auto;
 	}
+	#Scrollbar::-webkit-scrollbar {
+		background-color: ${({theme})=> theme.borderBase || "#ccc"};
+		height: 12px;
+		border-radius: 5px;
+	}
+	#Scrollbar::-webkit-scrollbar-button {
+		display: none;
+	}
+	#Scrollbar::-webkit-scrollbar-thumb {
+		background: ${({theme})=> theme.backgroundLevel2 || "#aaa"};
+		border-radius: 5px;
+	}
+	#Scrollbar::-webkit-scrollbar-track {
+		background-color: #ffffff30;
+		border-radius: 5px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
 	section {
 		width: 100%;
 		padding: 0;
 		overflow: hidden;
 		padding: 16px;
-		border-top: 1px solid rgb(200, 200, 200);
-		border-bottom: 1px solid rgb(200, 200, 200);
 		margin-bottom: 15px;
 		div {
 			width: calc(100vw - 16px * 4);
@@ -35,6 +54,7 @@ export const StyledTimeline = styled.div`
 			grid-auto-columns: minmax(200px, 1fr);
 			overflow-x: scroll;
 			scroll-snap-type: x mandatory;
+
 			a {
 				scroll-snap-align: start;
 				span {

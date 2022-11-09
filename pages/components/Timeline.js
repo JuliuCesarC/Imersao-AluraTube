@@ -6,13 +6,13 @@ function Timeline(props) {
 	const playlistName = Object.keys(config.playlists);
 
 	return (
-		<StyledTimeline>
+		<StyledTimeline theme={props.theme}>
 			{playlistName.map((listName) => {
 				const videos = Config[listName];
 				return (
 					<section className="Tags" key={listName}>
 						<h2>{listName}</h2>
-						<div>
+						<div id="Scrollbar">
 							{videos
 								.filter((searchVideo) => {
 									const titleNormalized = searchVideo.title.toLowerCase();

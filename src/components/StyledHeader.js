@@ -3,23 +3,10 @@ import styled from "styled-components";
 export const StyledHeader = styled.header`
 	width: 100%;
 	margin-top: 50px;
-	.Cover {
-		width: 100%;
-		height: 250px;
-		overflow: hidden;
-		position: relative;
-	}
-	.Cover img {
-		position: absolute;
-		height: unset;
-		width: 100%;
-		min-height: 500px;
-		min-width: 750px;
-		transform: translateY(-25%);
-		z-index: -1;
-	}
+	background-color: ${({theme})=> theme.backgroundLevel1 || '#FFFFFF'};
+	color: ${({theme})=> theme.textColorBase || "#222222"};
+	transition: background-color .2s;
 	.userInfo {
-		margin-top: 30px;
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -30,5 +17,8 @@ export const StyledHeader = styled.header`
 		width: 80px;
 		height: 80px;
 		border-radius: 50%;
+	}
+	h4{
+		color: #666666;
 	}
 `;
