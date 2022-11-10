@@ -6,7 +6,7 @@ function Timeline(props) {
 	const playlistName = Object.keys(config.playlists);
 
 	return (
-		<StyledTimeline theme={props.theme}>
+		<StyledTimeline>
 			{playlistName.map((listName) => {
 				const videos = Config[listName];
 				return (

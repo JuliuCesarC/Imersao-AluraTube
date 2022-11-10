@@ -1,6 +1,8 @@
 import Logo from "../logo";
 import Search from "./components/Search";
 import styled from "styled-components";
+import React from "react";
+import { ColorModeContext } from "./components/ColorMode";
 
 const StyledMenu = styled.nav`
 	display: flex;
@@ -15,7 +17,7 @@ const StyledMenu = styled.nav`
 	position: fixed;
 	width: 100%;
 	z-index: 1;
-	transition: background-color .2s;
+	transition: background-color 0.2s;
 	.logo {
 		width: 100%;
 		max-width: 80px;
@@ -26,51 +28,49 @@ const StyledMenu = styled.nav`
 			fill: ${({ theme }) => theme.textColorBase || "#222222"};
 		}
 	}
-	#ChangeColorTheme{
+	#ChangeColorTheme {
 		position: relative;
-		background-color: ${({theme})=> theme.textColorBase || "#222"};
+		background-color: ${({ theme }) => theme.textColorBase || "#222"};
 		border: none;
 		width: 50px;
 		height: 25px;
 		border-radius: 12px;
 		&:hover,
-    &:focus {
-      opacity: unset;
-    }
+		&:focus {
+			opacity: unset;
+		}
 	}
-	#ChangeColorTheme div{
+	#ChangeColorTheme div {
 		position: absolute;
-		background-color: ${({theme})=> theme.backgroundBase || "#fff"};
+		background-color: ${({ theme }) => theme.backgroundBase || "#fff"};
 		left: 0.5px;
 		top: 0.5px;
 		width: 24px;
 		height: 24px;
 		border-radius: 50%;
-		transition: left .4s;
+		transition: left 0.4s;
 	}
-	#ChangeColorTheme.Dark div{
+	#ChangeColorTheme.Dark div {
 		left: 25.5px;
 	}
 `;
-function Menu({ searchValue, setSearchValue, theme, changeTheme }) {
+function Menu({ searchValue, setSearchValue}) {
+	const context = React.useContext(ColorModeContext);
+	console.log(context);
 	return (
-		<StyledMenu theme={theme}>
+		<StyledMenu>
 			<div>
 				<Logo />
 			</div>
-			<Search
-				theme={theme}
-				searchValue={searchValue}
-				setSearchValue={setSearchValue}
-			/>
+			<Search searchValue={searchValue} setSearchValue={setSearchValue} />
 			<button
 				id="ChangeColorTheme"
 				onClick={(e) => {
-					let btn = document.getElementById('ChangeColorTheme')
-					theme
+					let btn = document.getElementById("ChangeColorTheme");
+					context.mode == "dark"
 						? btn.classList.remove("Dark")
 						: btn.classList.add("Dark");
-					changeTheme();
+					context.toggleMode();
 				}}
 			>
 				🌞 🌙

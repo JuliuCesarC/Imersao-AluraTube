@@ -1,11 +1,11 @@
 import config from "../../config.json"
 import { FavoriteDiv } from "./StyledFavorite";
 
-function Favorites({theme}) {
+function Favorites() {
 	const AluraTube = config.aluratube;
 
 	return (
-		<FavoriteDiv theme={theme}>
+		<FavoriteDiv>
 			<h3>AluraTubes favoritos!</h3>
 			<div className="Card">
 				{AluraTube.map((fav) => {

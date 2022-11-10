@@ -10,9 +10,9 @@ background-position-y: 58%;
 height: 230px;
 width: 100%;
 `
-function Header({theme}) {
+function Header() {
 	return (
-		<StyledHeader theme={theme}>
+		<StyledHeader>
 			<StyledBanner bg={config.banner} />
 			<section className="userInfo">
 				<img

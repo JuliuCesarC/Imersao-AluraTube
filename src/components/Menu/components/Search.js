@@ -36,9 +36,9 @@ const StyledSearch = styled.div`
     }
   }
 `;
-export default function Search({ theme, searchValue, setSearchValue }) {
+export default function Search({ searchValue, setSearchValue }) {
 	return (
-		<StyledSearch theme={theme}>
+		<StyledSearch>
 			<input
 				type="text"
 				value={searchValue}
