@@ -5,7 +5,7 @@ import React from "react";
 function Timeline(props) {
 	const Config = config.playlists;
 	const playlistName = Object.keys(config.playlists);
-	
+
 	return (
 		<StyledTimeline>
 			{playlistName.map((listName) => {
@@ -23,8 +23,14 @@ function Timeline(props) {
 								.map((video) => {
 									return (
 										<a
-										key={video.url}									
-										href="/video"
+											key={video.url}
+											onClick={() => {
+												localStorage.setItem(
+													"videoID",
+													JSON.stringify({id:video.url, title:video.title})
+												);
+											}}
+											href="/video"
 										>
 											<img src={video.thumb} alt="Imagem thumbnail" />
 											<span>{video.title}</span>
