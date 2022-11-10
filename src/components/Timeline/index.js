@@ -1,10 +1,11 @@
-import { StyledTimeline } from "./StyledTimeline";
-import config from "../../config.json";
+import { StyledTimeline } from "./components/StyledTimeline";
+import config from "../../../config.json";
+import React from "react";
 
 function Timeline(props) {
 	const Config = config.playlists;
 	const playlistName = Object.keys(config.playlists);
-
+	
 	return (
 		<StyledTimeline>
 			{playlistName.map((listName) => {
@@ -21,7 +22,10 @@ function Timeline(props) {
 								})
 								.map((video) => {
 									return (
-										<a href={video.url} key={video.url}>
+										<a
+										key={video.url}									
+										href="/video"
+										>
 											<img src={video.thumb} alt="Imagem thumbnail" />
 											<span>{video.title}</span>
 										</a>

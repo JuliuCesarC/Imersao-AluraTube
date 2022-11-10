@@ -54,9 +54,8 @@ const StyledMenu = styled.nav`
 		left: 25.5px;
 	}
 `;
-function Menu({ searchValue, setSearchValue}) {
-	const context = React.useContext(ColorModeContext);
-	console.log(context);
+function Menu({ searchValue, setSearchValue }) {
+	const contextMode = React.useContext(ColorModeContext);
 	return (
 		<StyledMenu>
 			<div>
@@ -65,12 +64,13 @@ function Menu({ searchValue, setSearchValue}) {
 			<Search searchValue={searchValue} setSearchValue={setSearchValue} />
 			<button
 				id="ChangeColorTheme"
+				className="Dark"
 				onClick={(e) => {
 					let btn = document.getElementById("ChangeColorTheme");
-					context.mode == "dark"
+					contextMode.mode == "dark"
 						? btn.classList.remove("Dark")
 						: btn.classList.add("Dark");
-					context.toggleMode();
+					contextMode.toggleMode();
 				}}
 			>
 				🌞 🌙
