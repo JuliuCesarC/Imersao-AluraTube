@@ -16,20 +16,10 @@ function useForm(props) {
 				[nomeDoCampo]: value,
 			});
 			// Utilizando o array com uma variável dentro de um objeto, podemos utilizar o valor dessa variável como nome do campo no objeto.
-			if (nomeDoCampo == "url" && value.includes("youtube")) {
-				let indexID = value.indexOf("v=") + 2;
-				if (indexID > 0) {
-					let ID = value.slice(indexID, indexID + 11);
-					if (!ID.includes("&") && ID.length == 11) {
-						setUrlImg(`https://img.youtube.com/vi/${ID}/hqdefault.jpg`);
-					}
-				}
-			}
 		},
 		clearForm() {
 			setValues(props.initialValue);
 		},
-		getUrlID: () => {},
 	};
 }
 
@@ -52,9 +42,23 @@ function RegisterVideo() {
 		initialValue: {
 			titulo: "",
 			url: "",
+			category: "",
 		},
 	});
 	const [showForm, setShowForm] = React.useState(false);
+	const [selectOptions, setSelectOptions] = React.useState([]);
+
+	React.useEffect(() => {
+		Supabase.from("video")
+			.select("*")
+			.then((dados) => {
+				let supPlayNames = dados.data.map((x) => x.playlist);
+				let playlistNames = supPlayNames.filter(
+					(e, i) => supPlayNames.indexOf(e) == i
+				);
+				setSelectOptions(playlistNames);
+			});
+	}, []);
 
 	return (
 		<StyledRegisterVideo>
@@ -70,21 +74,22 @@ function RegisterVideo() {
 				<form
 					onSubmit={(submit) => {
 						submit.preventDefault();
+						console.log(formState.values);
 						// setShowForm(false)
-						Supabase.from("video")
-							.insert({
-								title: formState.values.titulo,
-								url: formState.values.url,
-								thumb: getThumbnail(formState.values.url),
-								playlist: "",
-							})
-							.then((res) => {
-								console.log(res);
-							})
-							.catch((err) => {
-								console.log(err);
-							});
-						formState.clearForm();
+						// Supabase.from("video")
+						// 	.insert({
+						// 		title: formState.values.titulo,
+						// 		url: formState.values.url,
+						// 		thumb: getThumbnail(formState.values.url),
+						// 		playlist: "",
+						// 	})
+						// 	.then((res) => {
+						// 		console.log("response inset video", res);
+						// 	})
+						// 	.catch((err) => {
+						// 		console.log("error insert video", err);
+						// 	});
+						// formState.clearForm();
 					}}
 				>
 					<div>
@@ -113,7 +118,16 @@ function RegisterVideo() {
 							onChange={formState.handleChange}
 							required="required"
 						/>
-						<select></select>
+						<select name="category" onco={formState.handleChange} placeholder='Selecione'>
+							<option value='disabled' disabled selected>Selecione uma Categoria</option>
+							{selectOptions.map((eOption) => {
+								return (
+									<option value={eOption} key={eOption}>
+										{eOption}
+									</option>
+								);
+							})}
+						</select>
 						<button type="submit">Adicionar</button>
 
 						{formState.urlImg && <img src={formState.urlImg} />}
