@@ -25,7 +25,6 @@ function Video() {
 	useEffect(() => {
 		setVideo(JSON.parse(localStorage.getItem("videoID")));
 	}, []);
-
 	return (
 		<>
 			<StyledMenu>
