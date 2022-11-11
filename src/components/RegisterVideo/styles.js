@@ -15,9 +15,9 @@ export const StyledRegisterVideo = styled.div`
 		z-index: 99;
 		cursor: pointer;
 		transition-property: box-shadow transform;
-		transition-duration: .2s;
+		transition-duration: 0.2s;
 		&:hover,
-		&:focus{
+		&:focus {
 			opacity: unset;
 			box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
 			transform: scale(1.1);
@@ -64,6 +64,7 @@ export const StyledRegisterVideo = styled.div`
 			position: relative;
 			padding: 16px;
 			padding-top: 40px;
+			overflow: hidden;
 		}
 	}
 	input {
@@ -76,5 +77,12 @@ export const StyledRegisterVideo = styled.div`
 		background-color: #f9f9f9;
 		color: ${({ theme }) => theme.textColorBase};
 		background-color: ${({ theme }) => theme.backgroundBase};
+	}
+	img {
+		width: 90%;
+		margin: auto;
+		margin-top: 20px;
+		outline: 3px solid ${({ theme }) => theme.backgroundBase};
+		outline-offset: 3px;
 	}
 `;
