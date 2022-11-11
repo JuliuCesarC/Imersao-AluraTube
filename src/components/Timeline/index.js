@@ -1,15 +1,13 @@
 import { StyledTimeline } from "./components/StyledTimeline";
-import config from "../../../config.json";
 import React from "react";
 
-function Timeline(props) {
-	const Config = config.playlists;
-	const playlistName = Object.keys(config.playlists);
+function Timeline({searchValue, playlistVideos}) {
+	const playlistName = Object.keys(playlistVideos);
 
 	return (
 		<StyledTimeline>
 			{playlistName.map((listName) => {
-				const videos = Config[listName];
+				const videos = playlistVideos[listName];
 				return (
 					<section className="Tags" key={listName}>
 						<h2>{listName}</h2>
@@ -17,7 +15,7 @@ function Timeline(props) {
 							{videos
 								.filter((searchVideo) => {
 									const titleNormalized = searchVideo.title.toLowerCase();
-									const searchValueNormalized = props.searchValue.toLowerCase();
+									const searchValueNormalized = searchValue.toLowerCase();
 									return titleNormalized.includes(searchValueNormalized);
 								})
 								.map((video) => {

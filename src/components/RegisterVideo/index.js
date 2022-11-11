@@ -50,8 +50,8 @@ function getThumbnail(url) {
 function RegisterVideo() {
 	const formState = useForm({
 		initialValue: {
-			titulo: "LocalStorage NextJS",
-			url: "https://www.youtube.com/watch?v=zSl_n-9yGRs&ab_channel=MarioSouto-DevSoutinho",
+			titulo: "",
+			url: "",
 		},
 	});
 	const [showForm, setShowForm] = React.useState(false);
@@ -76,7 +76,7 @@ function RegisterVideo() {
 								title: formState.values.titulo,
 								url: formState.values.url,
 								thumb: getThumbnail(formState.values.url),
-								playlist: "jogos",
+								playlist: "",
 							})
 							.then((res) => {
 								console.log(res);
@@ -106,13 +106,14 @@ function RegisterVideo() {
 							required="required"
 						/>
 						<input
-							type="text"
+							type="url"
 							name="url"
 							placeholder="URL"
 							value={formState.values.url}
 							onChange={formState.handleChange}
 							required="required"
 						/>
+						<select></select>
 						<button type="submit">Adicionar</button>
 
 						{formState.urlImg && <img src={formState.urlImg} />}
