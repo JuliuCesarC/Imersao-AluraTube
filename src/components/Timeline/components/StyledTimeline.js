@@ -21,19 +21,19 @@ export const StyledTimeline = styled.div`
 		max-width: 210px;
 		height: auto;
 	}
-	#Scrollbar::-webkit-scrollbar {
+	#CardVideo::-webkit-scrollbar {
 		background-color: ${({theme})=> theme.borderBase || "#ccc"};
 		height: 12px;
 		border-radius: 5px;
 	}
-	#Scrollbar::-webkit-scrollbar-button {
+	#CardVideo::-webkit-scrollbar-button {
 		display: none;
 	}
-	#Scrollbar::-webkit-scrollbar-thumb {
+	#CardVideo::-webkit-scrollbar-thumb {
 		background: ${({theme})=> theme.backgroundLevel2 || "#aaa"};
 		border-radius: 5px;
 	}
-	#Scrollbar::-webkit-scrollbar-track {
+	#CardVideo::-webkit-scrollbar-track {
 		background-color: #ffffff30;
 		border-radius: 5px;
 		margin-top: 10px;
@@ -52,16 +52,35 @@ export const StyledTimeline = styled.div`
 			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 			grid-auto-flow: column;
 			grid-auto-columns: minmax(200px, 1fr);
-			overflow-x: scroll;
-			scroll-snap-type: x mandatory;
-
-			a {
+			padding-top: 15px;
+			/* overflow: hidden; */
+			#CardVideo{
+				overflow-x: scroll;
+				scroll-snap-type: x mandatory;
+				position: relative;
+			}
+			#CardVideo a {
 				scroll-snap-align: start;
 				span {
 					padding-top: 8px;
 					display: block;
 					padding-right: 24px;
 					color: ${({ theme }) => theme.textColorBase || "#222222"};
+				}
+			}
+			.deleteVideo{
+				position: absolute;
+				width: 35px;
+				height: 35px;
+				border-radius: 50%;
+				border: unset;
+				background-color: rgb(255,0,0);
+				color: ${({theme})=>{ theme.textColorBase}};
+				right: -10px;
+				top: -10px;
+				&:hover,
+				&:focus{
+					opacity: unset;
 				}
 			}
 		}

@@ -9,6 +9,7 @@ function useForm(props) {
 		values,
 		urlImg,
 		handleChange: (e) => {
+			console.log(e.target.value);
 			const value = e.target.value;
 			const nomeDoCampo = e.target.name;
 			setValues({
@@ -74,22 +75,26 @@ function RegisterVideo() {
 				<form
 					onSubmit={(submit) => {
 						submit.preventDefault();
-						console.log(formState.values);
-						// setShowForm(false)
-						// Supabase.from("video")
-						// 	.insert({
-						// 		title: formState.values.titulo,
-						// 		url: formState.values.url,
-						// 		thumb: getThumbnail(formState.values.url),
-						// 		playlist: "",
-						// 	})
-						// 	.then((res) => {
-						// 		console.log("response inset video", res);
-						// 	})
-						// 	.catch((err) => {
-						// 		console.log("error insert video", err);
-						// 	});
-						// formState.clearForm();
+						if(submit.target.children[0].children[3].value == 'disabled'){
+							alert('Selecione uma categoria.')
+							return
+						}
+						
+						setShowForm(false)
+						Supabase.from("video")
+							.insert({
+								title: formState.values.titulo,
+								url: formState.values.url,
+								thumb: getThumbnail(formState.values.url),
+								playlist: formState.values.category,
+							})
+							.then((res) => {
+								console.log("response inset video", res);
+							})
+							.catch((err) => {
+								console.log("error insert video", err);
+							});
+						formState.clearForm();
 					}}
 				>
 					<div>
@@ -118,8 +123,8 @@ function RegisterVideo() {
 							onChange={formState.handleChange}
 							required="required"
 						/>
-						<select name="category" onco={formState.handleChange} placeholder='Selecione'>
-							<option value='disabled' disabled selected>Selecione uma Categoria</option>
+						<select name="category" onChange={formState.handleChange} placeholder='Selecione' required>
+							<option value='disabled'>Selecione uma Categoria</option>
 							{selectOptions.map((eOption) => {
 								return (
 									<option value={eOption} key={eOption}>
@@ -130,7 +135,7 @@ function RegisterVideo() {
 						</select>
 						<button type="submit">Adicionar</button>
 
-						{formState.urlImg && <img src={formState.urlImg} />}
+						{/* {formState.urlImg && <img src={formState.urlImg} />} */}
 					</div>
 				</form>
 			) : null}

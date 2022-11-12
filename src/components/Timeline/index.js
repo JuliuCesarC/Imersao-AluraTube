@@ -20,19 +20,23 @@ function Timeline({searchValue, playlistVideos}) {
 								})
 								.map((video) => {
 									return (
-										<a
-											key={video.url}
-											onClick={() => {
-												localStorage.setItem(
-													"videoID",
-													JSON.stringify({id:video.url, title:video.title})
-												);
-											}}
-											href="/video"
-										>
-											<img src={video.thumb} alt="Imagem thumbnail" />
-											<span>{video.title}</span>
-										</a>
+										<div id="CardVideo">
+											<button className="deleteVideo">✖</button>
+											<a
+												key={video.url}
+												onClick={(e) => {
+													console.log(video.url);
+													localStorage.setItem(
+														"videoID",
+														JSON.stringify({id:video.url, title:video.title})
+													);
+												}}
+												href="/video"
+											>
+												<img src={video.thumb} alt="Imagem thumbnail" />
+												<span>{video.title}</span>
+											</a>
+										</div>
 									);
 								})}
 						</div>

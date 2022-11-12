@@ -19,6 +19,16 @@ const StyledDivVideo = styled.div`
 			margin: auto;
 		}
 		`;
+
+function getVideoID(url){
+	if(url){
+		console.log(url.indexOf('v=')+2);
+		let indexV = url.indexOf('v=')+2
+		let indexE = url.indexOf('&')
+
+		return url.slice(indexV, indexE)
+	}
+}
 function Video() {
 	const contextMode = React.useContext(ColorModeContext);
 	const [video, setVideo] = useState({});
@@ -49,7 +59,7 @@ function Video() {
 			<StyledDivVideo>
 				<div>
 					<iframe
-						src={`https://www.youtube.com/embed/${video.id}`}
+						src={`https://www.youtube.com/embed/${getVideoID(video.id)}`}
 						title="YouTube video player"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					></iframe>
