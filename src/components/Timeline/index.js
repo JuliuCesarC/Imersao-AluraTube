@@ -10,7 +10,10 @@ function Timeline({searchValue, playlistVideos}) {
 				const videos = playlistVideos[listName];
 				return (
 					<section className="Tags" key={listName}>
-						<h2>{listName}</h2>
+						<div class="title-edit">
+							<h2>{listName}</h2>
+							<img src="img/edit.png" alt="Botão editar categoria."/>
+						</div>
 						<div id="Scrollbar">
 							{videos
 								.filter((searchVideo) => {
