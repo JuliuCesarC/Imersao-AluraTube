@@ -36,8 +36,8 @@ export const StyledTimeline = styled.div`
 		display: grid;
 		grid-gap: 16px;
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		grid-auto-flow: column;
 		grid-auto-columns: minmax(200px, 1fr);
+		grid-auto-flow: column;
 	}
 	#CardVideo {
 		position: relative;
@@ -51,14 +51,16 @@ export const StyledTimeline = styled.div`
 			}
 		}
 		img {
-			aspect-ratio: 16/9;
-			font-weight: 500;
-			object-fit: cover;
-			width: 100%;
-			max-width: 210px;
-			height: auto;
+		aspect-ratio: 16/9;
+    font-weight: 500;
+    object-fit: cover;
+    width: 200px;
+    max-width: 210px;
+    height: auto;
 		}
 		.deleteVideo {
+			animation: showDeleteBtn .2s;
+			animation-play-state: 50%;
 			background-color: rgb(255, 0, 0);
 			color: ${({ theme }) => theme.textColorBase};
 			position: absolute;
@@ -68,13 +70,21 @@ export const StyledTimeline = styled.div`
 			border: unset;
 			left: 175px;
 			top: -8px;
-			z-index: 10;
+			z-index: 1;
 			&:hover,
 			&:focus {
 				opacity: unset;
 				box-shadow: 0px 0px 7px rgb(255, 0, 0);
 				transform: scale(1.2);
 			}
+		}
+	}
+	@keyframes showDeleteBtn{
+		0%{
+			transform: scale(0);
+		}
+		100%{
+			transform: scale(1);
 		}
 	}
 	#Scrollbar::-webkit-scrollbar {

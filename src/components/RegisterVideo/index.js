@@ -33,7 +33,6 @@ function getThumbnail(url) {
 	let indexID = url.indexOf("v=") + 2;
 	if (indexID > 0) {
 		let ID = url.slice(indexID, indexID + 11);
-
 		return `https://img.youtube.com/vi/${ID}/hqdefault.jpg`;
 	}
 }
@@ -58,6 +57,9 @@ function RegisterVideo() {
 					(e, i) => supPlayNames.indexOf(e) == i
 				);
 				setSelectOptions(playlistNames);
+			})
+			.catch((err) => {
+				console.log("error insert video", err);
 			});
 	}, []);
 
@@ -75,12 +77,12 @@ function RegisterVideo() {
 				<form
 					onSubmit={(submit) => {
 						submit.preventDefault();
-						if(submit.target.children[0].children[3].value == 'disabled'){
-							alert('Selecione uma categoria.')
-							return
+						if (submit.target.children[0].children[3].value == "disabled") {
+							alert("Selecione uma categoria.");
+							return;
 						}
-						
-						setShowForm(false)
+
+						setShowForm(false);
 						Supabase.from("video")
 							.insert({
 								title: formState.values.titulo,
@@ -123,8 +125,13 @@ function RegisterVideo() {
 							onChange={formState.handleChange}
 							required="required"
 						/>
-						<select name="category" onChange={formState.handleChange} placeholder='Selecione' required>
-							<option value='disabled'>Selecione uma Categoria</option>
+						<select
+							name="category"
+							onChange={formState.handleChange}
+							placeholder="Selecione"
+							required
+						>
+							<option value="disabled">Selecione uma Categoria</option>
 							{selectOptions.map((eOption) => {
 								return (
 									<option value={eOption} key={eOption}>

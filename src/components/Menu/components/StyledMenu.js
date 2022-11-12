@@ -12,7 +12,7 @@ export const StyledMenu = styled.nav`
 	gap: 16px;
 	position: fixed;
 	width: 100%;
-	z-index: 1;
+	z-index: 5;
 	transition: background-color 0.2s;
 	.logo {
 		width: 100%;
