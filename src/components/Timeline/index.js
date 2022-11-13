@@ -4,43 +4,62 @@ import { createClient } from "@supabase/supabase-js";
 
 const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
 const API_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
 const Supabase = createClient(PROJECT_URL, API_KEY);
 
-function Timeline({ searchValue, playlistVideos }) {
+function Timeline({ searchValue }) {
+	const [playlistVideos, setPlaylistVideos] = React.useState({});
 	const [playlistName, setPlaylistName] = React.useState([]);
 	const [editMode, setEditMode] = React.useState(false);
-	const [updateSupa, setUpdateSupa] = React.useState([])
-	useEffect(()=>{
-		// Verificar ------
-		setPlaylistName(Object.keys(playlistVideos))
-	},[playlistVideos])
-	
+	const [updateSupabaseState, setUpdateSupabaseState] = React.useState(false);
+	let updateSupa = [];
+
+	React.useEffect(() => {
+		Supabase.from("video")
+			.select("*")
+			.then((dados) => {
+				let supPlayNames = dados.data.map((x) => x.playlist);
+				let playlistNames = supPlayNames.filter(
+					(e, i) => supPlayNames.indexOf(e) == i
+				);
+				let arrayPlayNames = [];
+				playlistNames.forEach((playNames) => {
+					let playlist = {
+						[playNames]: dados.data.filter((x) => x.playlist == playNames),
+					};
+					arrayPlayNames.push(playlist);
+				});
+				arrayPlayNames.reduce((prev, next) => Object.assign(prev, next));
+				setPlaylistVideos(arrayPlayNames[0]);
+				setPlaylistName(Object.keys(arrayPlayNames[0]).sort());
+			});
+	}, [updateSupabaseState]);
+
 	function openEditTags() {
 		editMode ? setEditMode(false) : setEditMode(true);
-		console.log(updateSupa);
-		if(updateSupa.length>0){
-			updateSupa.forEach((Up)=>{
-				Supabase.from('video')
-				.update({playlist: Up.next})
-				.match({playlist: Up.prev})
-				.then((eUpdate) => {
-					console.log(eUpdate);
-				})
-				.catch((err) => {
-					console.log("error insert video", err);
-				});
-			})
-			setUpdateSupa([])
+		if (updateSupa.length > 0) {
+			updateSupa.forEach((Up) => {
+				Supabase.from("video")
+					.update({ playlist: Up.next })
+					.match({ playlist: Up.prev })
+					.then((eUpdate) => {
+						console.log(eUpdate);
+					})
+					.catch((err) => {
+						console.log("error insert video", err);
+					});
+			});
+			updateSupabaseState
+				? setUpdateSupabaseState(false)
+				: setUpdateSupabaseState(true);
+			updateSupa = [];
 		}
 	}
 	function editTagName(eEdit, list) {
 		let indexName = playlistName.indexOf(list);
-		let newPlaylist = playlistName.map(e=>e)
-		newPlaylist[indexName] = eEdit.target.value
-		setUpdateSupa([{prev: list, next:eEdit.target.value}])
-		setPlaylistName(newPlaylist)
-		console.log(newPlaylist);
+		let newPlaylist = playlistName.map((e) => e);
+		newPlaylist[indexName] = eEdit.target.value;
+		updateSupa.push({ prev: list, next: eEdit.target.value });
 	}
 	function randomID() {
 		return Math.random().toString(36).substring(2, 9);
@@ -70,53 +89,54 @@ function Timeline({ searchValue, playlistVideos }) {
 							/>
 						</div>
 						<div id="Scrollbar">
-							{videos
-								.filter((searchVideo) => {
-									const titleNormalized = searchVideo.title.toLowerCase();
-									const searchValueNormalized = searchValue.toLowerCase();
-									return titleNormalized.includes(searchValueNormalized);
-								})
-								.map((video) => {
-									return (
-										<div id="CardVideo" key={randomID()}>
-											{editMode && (
-												<button
-													className="deleteVideo"
+							{videos &&
+								videos
+									.filter((searchVideo) => {
+										const titleNormalized = searchVideo.title.toLowerCase();
+										const searchValueNormalized = searchValue.toLowerCase();
+										return titleNormalized.includes(searchValueNormalized);
+									})
+									.map((video) => {
+										return (
+											<div id="CardVideo" key={randomID()}>
+												{editMode && (
+													<button
+														className="deleteVideo"
+														onClick={(e) => {
+															console.log(video.url);
+															Supabase.from("video")
+																.delete()
+																.match({ url: video.url })
+																.then((del) => {
+																	console.log(del);
+																})
+																.catch((err) => {
+																	console.log("error insert video", err);
+																});
+														}}
+													>
+														✖
+													</button>
+												)}
+												<a
 													onClick={(e) => {
 														console.log(video.url);
-														Supabase.from("video")
-															.delete()
-															.match({ url: video.url })
-															.then((del) => {
-																console.log(del);
+														localStorage.setItem(
+															"videoID",
+															JSON.stringify({
+																id: video.url,
+																title: video.title,
 															})
-															.catch((err) => {
-																console.log("error insert video", err);
-															});
+														);
 													}}
+													href="/video"
 												>
-													✖
-												</button>
-											)}
-											<a
-												onClick={(e) => {
-													console.log(video.url);
-													localStorage.setItem(
-														"videoID",
-														JSON.stringify({
-															id: video.url,
-															title: video.title,
-														})
-													);
-												}}
-												href="/video"
-											>
-												<img src={video.thumb} alt="Imagem thumbnail" />
-												<span>{video.title}</span>
-											</a>
-										</div>
-									);
-								})}
+													<img src={video.thumb} alt="Imagem thumbnail" />
+													<span>{video.title}</span>
+												</a>
+											</div>
+										);
+									})}
 						</div>
 					</section>
 				);

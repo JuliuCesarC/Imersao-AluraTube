@@ -12,31 +12,12 @@ const Supabase = createClient(PROJECT_URL, API_KEY);
 
 function HomePage() {
 	const [searchValue, setSearchValue] = React.useState("");
-	const [playlists, setPlaylists] = React.useState({});
-
-	React.useEffect(() => {
-		Supabase.from("video")
-			.select("*")
-			.then((dados) => {
-				let supPlayNames = dados.data.map((x) => x.playlist);
-				let playlistNames = supPlayNames.filter(
-					(e, i) => supPlayNames.indexOf(e) == i
-				);
-				let arrayPlayNames = []
-				playlistNames.forEach((playNames) => {
-					let playlist = { [playNames]: dados.data.filter(x=>x.playlist == playNames) }
-					arrayPlayNames.push(playlist)
-				});
-				arrayPlayNames.reduce((prev, next)=> Object.assign(prev, next))
-				setPlaylists(arrayPlayNames[0])
-			});
-	}, []);
 
 	return (
 		<>
 			<Menu searchValue={searchValue} setSearchValue={setSearchValue} />
 			<Header />
-			<Timeline searchValue={searchValue} playlistVideos={playlists} />
+			<Timeline searchValue={searchValue}/>
 			<Favorites />
 		</>
 	);

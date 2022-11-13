@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledRegisterVideo } from "./styles";
+import { StyledRegisterVideo } from "./StyledRegisterVideo";
 import { createClient } from "@supabase/supabase-js";
 
 function useForm(props) {
