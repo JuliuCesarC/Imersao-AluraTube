@@ -59,11 +59,12 @@ function Timeline({ searchValue }) {
 		let indexName = playlistName.indexOf(list);
 		let newPlaylist = playlistName.map((e) => e);
 		newPlaylist[indexName] = eEdit.target.value;
-		updateSupa.push({ prev: list, next: eEdit.target.value });
+		updateSupa[indexName] = { prev: list, next: eEdit.target.value }
 	}
 	function randomID() {
 		return Math.random().toString(36).substring(2, 9);
 	}
+
 	return (
 		<StyledTimeline>
 			{playlistName.map((listName) => {
@@ -89,8 +90,8 @@ function Timeline({ searchValue }) {
 							/>
 						</div>
 						<div id="Scrollbar">
-							{videos &&
-								videos
+							{console.log(videos)}
+							{videos
 									.filter((searchVideo) => {
 										const titleNormalized = searchVideo.title.toLowerCase();
 										const searchValueNormalized = searchValue.toLowerCase();
@@ -103,7 +104,6 @@ function Timeline({ searchValue }) {
 													<button
 														className="deleteVideo"
 														onClick={(e) => {
-															console.log(video.url);
 															Supabase.from("video")
 																.delete()
 																.match({ url: video.url })
@@ -120,7 +120,6 @@ function Timeline({ searchValue }) {
 												)}
 												<a
 													onClick={(e) => {
-														console.log(video.url);
 														localStorage.setItem(
 															"videoID",
 															JSON.stringify({
