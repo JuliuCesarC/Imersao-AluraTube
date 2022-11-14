@@ -30,6 +30,7 @@ export const StyledMenu = styled.nav`
 		border: none;
 		width: 50px;
 		height: 25px;
+		min-width: 50px;
 		border-radius: 12px;
 		&:hover,
 		&:focus {

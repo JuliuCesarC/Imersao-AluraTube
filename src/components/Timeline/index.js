@@ -29,9 +29,13 @@ function Timeline({ searchValue }) {
 					};
 					arrayPlayNames.push(playlist);
 				});
-				arrayPlayNames.reduce((prev, next) => Object.assign(prev, next));
+				if (arrayPlayNames.length > 0) {
+					arrayPlayNames.reduce((prev, next) => Object.assign(prev, next));
+					setPlaylistName(Object.keys(arrayPlayNames[0]).sort());
+				} else {
+					arrayPlayNames = [];
+				}
 				setPlaylistVideos(arrayPlayNames[0]);
-				setPlaylistName(Object.keys(arrayPlayNames[0]).sort());
 			});
 	}, [updateSupabaseState]);
 
@@ -59,7 +63,7 @@ function Timeline({ searchValue }) {
 		let indexName = playlistName.indexOf(list);
 		let newPlaylist = playlistName.map((e) => e);
 		newPlaylist[indexName] = eEdit.target.value;
-		updateSupa[indexName] = { prev: list, next: eEdit.target.value }
+		updateSupa[indexName] = { prev: list, next: eEdit.target.value };
 	}
 	function randomID() {
 		return Math.random().toString(36).substring(2, 9);
@@ -92,54 +96,54 @@ function Timeline({ searchValue }) {
 						<div id="Scrollbar">
 							{console.log(videos)}
 							{videos
-									.filter((searchVideo) => {
-										const titleNormalized = searchVideo.title.toLowerCase();
-										const searchValueNormalized = searchValue.toLowerCase();
-										return titleNormalized.includes(searchValueNormalized);
-									})
-									.map((video) => {
-										return (
-											<div id="CardVideo" key={randomID()}>
-												{editMode && (
-													<button
-														className="deleteVideo"
-														onClick={(e) => {
-															Supabase.from("video")
-																.delete()
-																.match({ url: video.url })
-																.then((del) => {
-																	console.log(del);
-																})
-																.catch((err) => {
-																	console.log("error insert video", err);
-																});
-														}}
-													>
-														✖
-													</button>
-												)}
-												<a
+								.filter((searchVideo) => {
+									const titleNormalized = searchVideo.title.toLowerCase();
+									const searchValueNormalized = searchValue.toLowerCase();
+									return titleNormalized.includes(searchValueNormalized);
+								})
+								.map((video) => {
+									return (
+										<div id="CardVideo" key={randomID()}>
+											{editMode && (
+												<button
+													className="deleteVideo"
 													onClick={(e) => {
-														localStorage.setItem(
-															"videoID",
-															JSON.stringify({
-																id: video.url,
-																title: video.title,
+														Supabase.from("video")
+															.delete()
+															.match({ url: video.url })
+															.then((del) => {
+																console.log(del);
 															})
-														);
+															.catch((err) => {
+																console.log("error insert video", err);
+															});
 													}}
-													href="/video"
 												>
-													<img src={video.thumb} alt="Imagem thumbnail" />
-													<span>{video.title}</span>
-												</a>
-											</div>
-										);
-									})}
+													✖
+												</button>
+											)}
+											<a
+												onClick={(e) => {
+													localStorage.setItem(
+														"videoID",
+														JSON.stringify({
+															id: video.url,
+															title: video.title,
+														})
+													);
+												}}
+												href="/video"
+											>
+												<img src={video.thumb} alt="Imagem thumbnail" />
+												<span>{video.title}</span>
+											</a>
+										</div>
+									);
+								})}
 						</div>
 					</section>
 				);
-			})}
+			})}			
 		</StyledTimeline>
 	);
 }

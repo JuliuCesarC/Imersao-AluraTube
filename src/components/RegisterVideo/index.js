@@ -9,7 +9,6 @@ function useForm(props) {
 		values,
 		urlImg,
 		handleChange: (e) => {
-			console.log(e.target.value);
 			const value = e.target.value;
 			const nomeDoCampo = e.target.name;
 			setValues({
@@ -46,6 +45,8 @@ function RegisterVideo() {
 		},
 	});
 	const [showForm, setShowForm] = React.useState(false);
+	const [changeAddVideoToAddCategory, setChangeAddVideoToAddCategory] =
+		React.useState(false);
 	const [selectOptions, setSelectOptions] = React.useState([]);
 
 	React.useEffect(() => {
@@ -66,7 +67,7 @@ function RegisterVideo() {
 	return (
 		<StyledRegisterVideo>
 			<button
-				className="add-video"
+				className="openCardAdd"
 				onClick={() => {
 					setShowForm(true);
 				}}
@@ -74,75 +75,120 @@ function RegisterVideo() {
 				+
 			</button>
 			{showForm ? (
-				<form
-					onSubmit={(submit) => {
-						submit.preventDefault();
-						if (submit.target.children[0].children[3].value == "disabled") {
-							alert("Selecione uma categoria.");
-							return;
-						}
-
-						setShowForm(false);
-						Supabase.from("video")
-							.insert({
-								title: formState.values.titulo,
-								url: formState.values.url,
-								thumb: getThumbnail(formState.values.url),
-								playlist: formState.values.category,
-							})
-							.then((res) => {
-								console.log("response inset video", res);
-							})
-							.catch((err) => {
-								console.log("error insert video", err);
-							});
-						formState.clearForm();
-					}}
-				>
+				<form id="pageForm">
 					<div>
-						<button
-							type="button"
-							className="close-modal"
-							onClick={() => {
+						<div id="navAdd">
+							<button
+								type="button"
+								className="navVideo active"
+								onClick={(e) => {
+									if (e.target.classList.length < 2) {
+										e.target.parentNode.children[1].classList.remove("active");
+										e.target.classList.add("active");
+										setChangeAddVideoToAddCategory(false);
+									}
+								}}
+							>
+								Adicionar video
+							</button>
+							<button
+								type="button"
+								className="navCategory"
+								onClick={(e) => {
+									if (e.target.classList.length < 2) {
+										e.target.parentNode.children[0].classList.remove("active");
+										e.target.classList.add("active");
+										setChangeAddVideoToAddCategory(true);
+									}
+								}}
+							>
+								Adicionar categoria
+							</button>
+							<button
+								type="button"
+								className="close-modal"
+								onClick={() => {
+									setShowForm(false);
+								}}
+							>
+								✖
+							</button>
+						</div>
+						{changeAddVideoToAddCategory ? (
+							<form id="inputAddCategory">
+								<input
+									type="text"
+									placeholder="Nome da categoria"
+									onChange={(e) => {
+										"a";
+									}}
+									name="category"
+								/>
+								<button type="button" className="ADD">
+									Adicionar
+								</button>
+							</form>
+						) : (
+							<form id="inputAdd" onSubmit={(submit) => {
+								submit.preventDefault();
+								if (submit.target.children[0].children[3].value == "disabled") {
+									alert("Selecione uma categoria.");
+									return;
+								}		
 								setShowForm(false);
+								Supabase.from("video")
+									.insert({
+										title: formState.values.titulo,
+										url: formState.values.url,
+										thumb: getThumbnail(formState.values.url),
+										playlist: formState.values.category,
+									})
+									.then((res) => {
+										console.log("response inset video", res);
+									})
+									.catch((err) => {
+										console.log("error insert video", err);
+									});
+								formState.clearForm();
 							}}
-						>
-							X
-						</button>
-						<input
-							type="text"
-							name="titulo"
-							placeholder="Titulo do video"
-							value={formState.values.titulo}
-							onChange={formState.handleChange}
-							required="required"
-						/>
-						<input
-							type="url"
-							name="url"
-							placeholder="URL"
-							value={formState.values.url}
-							onChange={formState.handleChange}
-							required="required"
-						/>
-						<select
-							name="category"
-							onChange={formState.handleChange}
-							placeholder="Selecione"
-							required
-						>
-							<option value="disabled">Selecione uma Categoria</option>
-							{selectOptions.map((eOption) => {
-								return (
-									<option value={eOption} key={eOption}>
-										{eOption}
-									</option>
-								);
-							})}
-						</select>
-						<button type="submit">Adicionar</button>
-
-						{/* {formState.urlImg && <img src={formState.urlImg} />} */}
+							>
+								<input
+									type="text"
+									name="titulo"
+									placeholder="Titulo do video"
+									// value={formState.values.titulo}
+									onChange={formState.handleChange}
+									required="required"
+								/>
+								<input
+									type="url"
+									name="url"
+									placeholder="URL"
+									value={formState.values.url}
+									onChange={formState.handleChange}
+									required="required"
+								/>
+								<select
+									name="category"
+									onChange={formState.handleChange}
+									placeholder="Selecione"
+									required
+								>
+									<option value="disabled">Selecione uma Categoria</option>
+									{selectOptions.map((eOption) => {
+										return (
+											<option value={eOption} key={eOption}>
+												{eOption}
+											</option>
+										);
+									})}
+								</select>
+								<button type="submit" className="ADD">
+									Adicionar
+								</button>
+								{/* {formState.urlImg && <img src={formState.urlImg} />} */}
+							</form>
+						)}
 					</div>
 				</form>
 			) : null}

@@ -32,10 +32,10 @@ export const CSSReset = createGlobalStyle`
   a {
     text-decoration: none;
     opacity: 1;
-    transition: .3s;
+    transition: .25s;
     &:hover,
     &:focus {
-      opacity: .5;
+      opacity: .7;
     }
   }
 `;
