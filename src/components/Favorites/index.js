@@ -1,5 +1,5 @@
-import config from "../../config.json"
-import { FavoriteDiv } from "./StyledFavorite";
+import config from "../../../config.json"
+import { FavoriteDiv } from "./components/StyledFavorite";
 
 function Favorites() {
 	const AluraTube = config.aluratube;

@@ -1,8 +1,9 @@
 {
-	"name": "Julio Cesar",
+	"name": "Juliu Cesar",
 	"job": "Junior frontend developer",
 	"github": "JuliuCesarC",
 	"banner": "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+	"thumb": "https://img.youtube.com/vi/ID/hqdefault.jpg",
 	"aluratube": [
 		{
 			"name": "@aluraonline",
@@ -13,6 +14,11 @@
 			"name": "@devsoutinho",
 			"img": "https://github.com/omariosouto.png",
 			"link": "https://www.instagram.com/devsoutinho/"
+		},
+		{
+			"name": "Nayanne Batista",
+			"img": "https://github.com/NayanneBatista.png",
+			"link": "https://www.linkedin.com/in/nayannebatista/?originalSubdomain=br"
 		},
 		{
 			"name": "@paulo_hipster",

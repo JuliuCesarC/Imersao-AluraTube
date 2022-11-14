@@ -110,7 +110,7 @@ export const StyledRegisterVideo = styled.div`
 			}
 		}
 	}
-	button.ADD {
+	button[type="submit"] {
 		width: 100%;
 		font-size: 15px;
 		background-color: red;
@@ -120,7 +120,7 @@ export const StyledRegisterVideo = styled.div`
 		cursor: pointer;
 		color: inherit;
 	}
-	#inputAddCategory{
+	#formAddCategory{
 		width: 100%;
 		input {
 			width: 100%;
@@ -135,7 +135,7 @@ export const StyledRegisterVideo = styled.div`
 			background-color: ${({ theme }) => theme.backgroundBase};
 		}
 	}
-	#inputAdd {
+	#formAdd {
 		width: 100%;
 		input {
 			width: 100%;
@@ -153,7 +153,7 @@ export const StyledRegisterVideo = styled.div`
 			width: 100%;
 			border: none;
 			background-color: unset;
-			font-size: unset;
+			font-size: 15px;
 			text-transform: capitalize;
 			outline: unset;
 			margin-bottom: 10px;

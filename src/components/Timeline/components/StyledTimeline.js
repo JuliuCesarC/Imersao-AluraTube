@@ -27,6 +27,15 @@ export const StyledTimeline = styled.div`
 			width: 35px;
 			height: 35px;
 		}
+		#inputEditTagName{
+			background-color: unset;
+			border: unset;
+			color: ${({ theme }) => theme.textColorBase};
+			border: 1px solid ${({ theme }) => theme.borderBase};
+			font-size: 20px;
+			font-weight: 600;
+			padding: 2px 5px;
+		}
 	}
 	#Scrollbar {
 		width: 100%;

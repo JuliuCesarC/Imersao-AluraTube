@@ -78,6 +78,7 @@ function Timeline({ searchValue }) {
 						<div className="title-edit">
 							{editMode ? (
 								<input
+								id="inputEditTagName"
 									type="text"
 									onChange={(e) => {
 										editTagName(e, listName);

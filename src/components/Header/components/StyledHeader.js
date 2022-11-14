@@ -18,6 +18,15 @@ export const StyledHeader = styled.header`
 		height: 80px;
 		border-radius: 50%;
 	}
+	h2{
+		a{
+			color: ${({theme})=> theme.textColorBase};
+		}
+		img{
+			width: 20px;
+			margin-right: 5px;
+		}
+	}
 	h4{
 		color: #666666;
 	}

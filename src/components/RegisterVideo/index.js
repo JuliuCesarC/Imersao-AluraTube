@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledRegisterVideo } from "./StyledRegisterVideo";
+import { StyledRegisterVideo } from "./components/StyledRegisterVideo";
 import { createClient } from "@supabase/supabase-js";
 
 function useForm(props) {
@@ -41,7 +41,8 @@ function RegisterVideo() {
 		initialValue: {
 			titulo: "",
 			url: "",
-			category: "",
+			selectCategory: "",
+			addCategory: ""
 		},
 	});
 	const [showForm, setShowForm] = React.useState(false);
@@ -75,7 +76,7 @@ function RegisterVideo() {
 				+
 			</button>
 			{showForm ? (
-				<form id="pageForm">
+				<div id="pageForm">
 					<div>
 						<div id="navAdd">
 							<button
@@ -86,6 +87,7 @@ function RegisterVideo() {
 										e.target.parentNode.children[1].classList.remove("active");
 										e.target.classList.add("active");
 										setChangeAddVideoToAddCategory(false);
+										formState.clearForm()
 									}
 								}}
 							>
@@ -99,6 +101,7 @@ function RegisterVideo() {
 										e.target.parentNode.children[0].classList.remove("active");
 										e.target.classList.add("active");
 										setChangeAddVideoToAddCategory(true);
+										formState.clearForm()
 									}
 								}}
 							>
@@ -109,29 +112,38 @@ function RegisterVideo() {
 								className="close-modal"
 								onClick={() => {
 									setShowForm(false);
+									setChangeAddVideoToAddCategory(false)
 								}}
 							>
 								✖
 							</button>
 						</div>
 						{changeAddVideoToAddCategory ? (
-							<form id="inputAddCategory">
+							<form id="formAddCategory" onSubmit={(submit)=>{
+								submit.preventDefault();
+								if(submit.target.children[0].value.trim() == ''){
+									alert('ERRO nome da categoria invalido.')
+									return
+								}
+								let newCategory = submit.target.children[0].value.toLowerCase()
+								setSelectOptions([...selectOptions, newCategory])
+							}}>
 								<input
 									type="text"
+									name="addCategory"
 									placeholder="Nome da categoria"
-									onChange={(e) => {
-										"a";
-									}}
-									name="category"
+									value={formState.values.addCategory}
+									onChange={formState.handleChange}
+									id="inputAddCategory"
 								/>
-								<button type="button" className="ADD">
+								<button type="submit" className="ADD">
 									Adicionar
 								</button>
 							</form>
 						) : (
-							<form id="inputAdd" onSubmit={(submit) => {
+							<form id="formAdd" onSubmit={(submit) => {
 								submit.preventDefault();
-								if (submit.target.children[0].children[3].value == "disabled") {
+								if (submit.target.children[2].value == "disabled") {
 									alert("Selecione uma categoria.");
 									return;
 								}		
@@ -141,7 +153,7 @@ function RegisterVideo() {
 										title: formState.values.titulo,
 										url: formState.values.url,
 										thumb: getThumbnail(formState.values.url),
-										playlist: formState.values.category,
+										playlist: formState.values.selectCategory,
 									})
 									.then((res) => {
 										console.log("response inset video", res);
@@ -154,9 +166,9 @@ function RegisterVideo() {
 							>
 								<input
 									type="text"
-									name="titulo"
+									name="title"
 									placeholder="Titulo do video"
-									// value={formState.values.titulo}
+									value={formState.values.title}
 									onChange={formState.handleChange}
 									required="required"
 								/>
@@ -169,7 +181,7 @@ function RegisterVideo() {
 									required="required"
 								/>
 								<select
-									name="category"
+									name="selectCategory"
 									onChange={formState.handleChange}
 									placeholder="Selecione"
 									required
@@ -190,7 +202,7 @@ function RegisterVideo() {
 							</form>
 						)}
 					</div>
-				</form>
+				</div>
 			) : null}
 		</StyledRegisterVideo>
 	);
