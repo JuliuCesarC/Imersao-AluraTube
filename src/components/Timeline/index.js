@@ -11,10 +11,7 @@ const Supabase = createClient(PROJECT_URL, API_KEY);
 function Timeline({ searchValue }) {
 	const [playlistVideos, setPlaylistVideos] = React.useState({});
 	const [playlistName, setPlaylistName] = React.useState([]);
-	const [editMode, setEditMode] = React.useState(false);
-	const [updateSupabaseState, setUpdateSupabaseState] = React.useState(false);
 	const [openEditCategory, setOpenEditCategory] = React.useState(false);
-	let updateSupa = [];
 
 	React.useEffect(() => {
 		Supabase.from("video")
@@ -34,43 +31,22 @@ function Timeline({ searchValue }) {
 				if (arrayPlayNames.length > 0) {
 					arrayPlayNames.reduce((prev, next) => Object.assign(prev, next));
 					setPlaylistName(Object.keys(arrayPlayNames[0]).sort());
+					console.log(playlistName);
 				} else {
 					arrayPlayNames = [];
 				}
 				setPlaylistVideos(arrayPlayNames[0]);
 			});
-	}, [updateSupabaseState]);
+	}, [openEditCategory]);
 
 	function openCardEditCategory(categoryName, categoryVideos) {
 		setOpenEditCategory({ title: categoryName, videos: categoryVideos });
-
-		// updateSupa.forEach((Up) => {
-		// 	Supabase.from("video")
-		// 		.update({ playlist: Up.next })
-		// 		.match({ playlist: Up.prev })
-		// 		.then((eUpdate) => {
-		// 			console.log(eUpdate);
-		// 		})
-		// 		.catch((err) => {
-		// 			console.log("error insert video", err);
-		// 		});
-		// });
 	}
-	function editTagName(eEdit, list) {
-		let indexName = playlistName.indexOf(list);
-		let newPlaylist = playlistName.map((e) => e);
-		newPlaylist[indexName] = eEdit.target.value;
-		updateSupa[indexName] = { prev: list, next: eEdit.target.value };
-	}
-	function randomID() {
-		return Math.random().toString(36).substring(2, 9);
-	}
-
 	return (
 		<StyledTimeline>
 			{openEditCategory && (
 				<EditCategory
-					openEditCategory={openEditCategory}
+					editCategory={openEditCategory}
 					setOpenEditCategory={setOpenEditCategory}
 				/>
 			)}
@@ -79,18 +55,7 @@ function Timeline({ searchValue }) {
 				return (
 					<section className="Tags" key={listName}>
 						<div className="title-edit">
-							{editMode ? (
-								<input
-									id="inputEditTagName"
-									type="text"
-									onChange={(e) => {
-										editTagName(e, listName);
-									}}
-									defaultValue={listName}
-								/>
-							) : (
-								<h2>{listName}</h2>
-							)}
+							<h2>{listName}</h2>
 							<img
 								src="img/edit.png"
 								alt="Botão editar categoria."
@@ -112,25 +77,7 @@ function Timeline({ searchValue }) {
 								})
 								.map((video) => {
 									return (
-										<div id="CardVideo" key={randomID()}>
-											{editMode && (
-												<button
-													className="deleteVideo"
-													onClick={(e) => {
-														Supabase.from("video")
-															.delete()
-															.match({ url: video.url })
-															.then((del) => {
-																console.log(del);
-															})
-															.catch((err) => {
-																console.log("error insert video", err);
-															});
-													}}
-												>
-													✖
-												</button>
-											)}
+										<div id="CardVideo" key={video.id}>
 											<a
 												onClick={(e) => {
 													localStorage.setItem(

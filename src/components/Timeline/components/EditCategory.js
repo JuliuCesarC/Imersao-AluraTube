@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { createClient } from "@supabase/supabase-js";
 
 const StyledBackgroundCategory = styled.div`
 	position: fixed;
@@ -8,7 +9,7 @@ const StyledBackgroundCategory = styled.div`
 	left: 0;
 	width: 100%;
 	height: 100vh;
-	padding: 2% 5%;
+	padding: 15px 5%;
 	z-index: 100;
 	form {
 		position: relative;
@@ -29,7 +30,7 @@ const StyledBackgroundCategory = styled.div`
 			margin-bottom: 20px;
 			font-size: 18px;
 		}
-		> button {
+		.closeEditCategory {
 			position: absolute;
 			background-color: unset;
 			color: ${({ theme }) => theme.textColorBase};
@@ -46,7 +47,7 @@ const StyledBackgroundCategory = styled.div`
 				opacity: unset;
 				box-shadow: 0 0 3px ${({ theme }) => theme.textColorBase};
 			}
-		}		
+		}
 		div {
 			display: grid;
 			grid-template-columns: auto auto;
@@ -82,13 +83,30 @@ const StyledBackgroundCategory = styled.div`
 				}
 			}
 		}
+		.Removed {
+			animation-name: removed;
+			animation-duration: 0.3s;
+			animation-fill-mode: forwards;
+		}
+		#saveConfigCategory {
+			position: initial;
+			width: 100%;
+			font-size: 16px;
+			background-color: red;
+			padding: 10px;
+			border: none;
+			border-radius: 2px;
+			cursor: pointer;
+			color: inherit;
+		}
 		.scrollCardVideos {
 			width: 100%;
-			height: 90%;
+			height: calc(100vh - 160px);
 			padding: 8px;
+			margin-bottom: 10px;
 			border: 2px solid #444444;
-			border-radius: 8px;
-			outline: 2px solid rgba(0, 0, 0, 0.2);
+			border-radius: 10px;
+			outline: 2px solid rgba(0, 0, 0, 0.3);
 			outline-offset: -4px;
 			overflow-y: scroll;
 			overflow-x: hidden;
@@ -109,30 +127,112 @@ const StyledBackgroundCategory = styled.div`
 				padding-top: 10px;
 			}
 		}
+		@keyframes removed {
+			0% {
+				transform: scale(1);
+			}
+			100% {
+				transform: scale(0);
+			}
+		}
 	}
 `;
 
-function EditCategory({ openEditCategory, setOpenEditCategory }) {
+const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
+const API_KEY =
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
+const Supabase = createClient(PROJECT_URL, API_KEY);
+
+function EditCategory({ editCategory, setOpenEditCategory }) {
+	const [standbyID, setStandbyID] = useState([]);
 	const [videosCategory, setVideosCategory] = React.useState(
-		openEditCategory.videos
+		editCategory.videos
 	);
-	console.log(openEditCategory);
+	function deleteVideo(eDelete, ID) {
+		eDelete.target.parentNode.classList.add("Removed");
+		let newVideosCategory = videosCategory.filter((e) => e.id != ID);
+		setTimeout(() => {
+			setVideosCategory(newVideosCategory);
+		}, 300);
+		setStandbyID([...standbyID, ID]);
+	}
 	return (
 		<StyledBackgroundCategory>
-			<form className="formCategory">
-				<input type="text" defaultValue={openEditCategory.title} />
-				<button type="button">✖</button>
+			<form
+				className="formCategory"
+				onSubmit={(eSubmit) => {
+					eSubmit.preventDefault();
+					let inputTitle = eSubmit.target.children[0].value.toLowerCase();
+					if (inputTitle.trim() < 1) {
+						alert("Texto invalido.");
+						return;
+					}
+					if (inputTitle != editCategory.title) {
+						Supabase.from("video")
+							.update({ playlist: inputTitle })
+							.match({ playlist: editCategory.title })
+							.then((res) => {
+								console.log(res);
+								setOpenEditCategory(false);
+							})
+							.catch((err) => {
+								console.log(err);
+							});
+					}
+					if (videosCategory != editCategory.videos) {
+						standbyID.forEach((videoID) => {
+							Supabase.from("video")
+								.delete()
+								.match({ id: videoID })
+								.then((res) => {
+									console.log(res);
+									if(inputTitle == editCategory.title){
+										setOpenEditCategory(false);
+									}
+								})
+								.catch((err) => {
+									console.log(err);
+								});
+						});
+					}
+				}}
+			>
+				<input type="text" defaultValue={editCategory.title} required />
+				<button
+					type="button"
+					className="closeEditCategory"
+					onClick={(e) => {
+						if (videosCategory != editCategory.videos) {
+							if (!confirm("Tem certeza que deseja cancelar alterações?")) {
+								return;
+							}
+						}
+						setOpenEditCategory(false);
+					}}
+				>
+					✖
+				</button>
 				<div className="scrollCardVideos">
 					{videosCategory.map((video) => {
 						return (
 							<div className="cardVideo" key={video.id}>
 								<img src={video.thumb} alt="imagem thumbnail" />
 								<p>{video.title}</p>
-								<button type="button">✖</button>
+								<button
+									type="button"
+									onClick={(eDelete) => {
+										deleteVideo(eDelete, video.id);
+									}}
+								>
+									✖
+								</button>
 							</div>
 						);
 					})}
 				</div>
+				<button type="submit" id="saveConfigCategory">
+					Salvar Configurações
+				</button>
 			</form>
 		</StyledBackgroundCategory>
 	);

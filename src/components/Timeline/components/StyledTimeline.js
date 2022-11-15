@@ -26,6 +26,12 @@ export const StyledTimeline = styled.div`
 		img {
 			width: 30px;
 			height: 30px;
+			padding: 2px;
+			border-radius: 50%;
+			transition: all .2s;
+			:hover{
+				box-shadow: 0 0 5px ${({ theme }) => theme.textColorBase};
+			}
 		}
 		#inputEditTagName{
 			background-color: unset;
@@ -78,7 +84,6 @@ export const StyledTimeline = styled.div`
 		}
 	}
 	#Scrollbar::-webkit-scrollbar {
-		background-color: ${({ theme }) => theme.borderBase || "#ccc"};
 		height: 12px;
 		border-radius: 5px;
 	}
@@ -86,11 +91,11 @@ export const StyledTimeline = styled.div`
 		display: none;
 	}
 	#Scrollbar::-webkit-scrollbar-thumb {
-		background: ${({ theme }) => theme.backgroundLevel2 || "#aaa"};
+		background: ${({ theme }) => theme.backgroundLevel2};
 		border-radius: 5px;
 	}
 	#Scrollbar::-webkit-scrollbar-track {
-		background-color: #ffffff30;
+		background-color: #707070;
 		border-radius: 5px;
 		margin-top: 10px;
 		margin-bottom: 10px;

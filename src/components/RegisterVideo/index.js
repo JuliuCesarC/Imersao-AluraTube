@@ -194,7 +194,7 @@ function RegisterVideo() {
 									required
 								>
 									<option value="disabled">Selecione uma Categoria</option>
-									{selectOptions.map((eOption) => {
+									{selectOptions.sort().map((eOption) => {
 										return (
 											<option value={eOption} key={eOption}>
 												{eOption}
