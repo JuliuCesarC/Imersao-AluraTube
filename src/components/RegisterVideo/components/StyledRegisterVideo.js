@@ -48,19 +48,19 @@ export const StyledRegisterVideo = styled.div`
 		}
 	}
 	#navAdd {
-		width: 94%;
+		width: 90%;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		margin-bottom: 10px;
 		.navVideo {
+			background-color: unset;
 			color: ${({ theme }) => theme.textColorBase};
-			font-weight: 600;
 			width: 50%;
 			height: 45px;
-			background-color: unset;
 			border: unset;
 			border-top-left-radius: 8px;
+			font-size: 16px;
 			transition: transform 0.1s;
 			cursor: pointer;
 			:focus,
@@ -71,12 +71,12 @@ export const StyledRegisterVideo = styled.div`
 		}
 		.navCategory {
 			color: ${({ theme }) => theme.textColorBase};
-			font-weight: 600;
 			width: 50%;
 			height: 45px;
 			background-color: unset;
 			border: unset;
 			border-top-right-radius: 8px;
+			font-size: 16px;
 			transition: transform .1s;
 			cursor: pointer;
 			:focus,
@@ -95,17 +95,18 @@ export const StyledRegisterVideo = styled.div`
 		}
 		.close-modal {
 			position: absolute;
-			width: 25px;
-			height: 25px;
-			top: 6px;
-			right: 6px;
 			color: inherit;
 			background-color: transparent;
+			top: 6px;
+			right: 6px;
+			width: 30px;
+			height: 30px;
 			border: none;
 			border-radius: 50%;
+			font-size: 16px;
 			cursor: pointer;
 			:hover {
-				box-shadow: 0 0 2px ${({ theme }) => theme.textColorBase};
+				box-shadow: 0 0 3px ${({ theme }) => theme.textColorBase};
 				opacity: unset;
 			}
 		}

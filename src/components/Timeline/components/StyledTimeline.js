@@ -67,26 +67,7 @@ export const StyledTimeline = styled.div`
     max-width: 210px;
     height: auto;
 		}
-		.deleteVideo {
-			animation: showDeleteBtn .2s;
-			animation-play-state: 50%;
-			background-color: rgb(255, 0, 0);
-			color: ${({ theme }) => theme.textColorBase};
-			position: absolute;
-			width: 35px;
-			height: 35px;
-			border-radius: 50%;
-			border: unset;
-			left: 175px;
-			top: -8px;
-			z-index: 1;
-			&:hover,
-			&:focus {
-				opacity: unset;
-				box-shadow: 0px 0px 7px rgb(255, 0, 0);
-				transform: scale(1.2);
-			}
-		}
+		
 	}
 	@keyframes showDeleteBtn{
 		0%{

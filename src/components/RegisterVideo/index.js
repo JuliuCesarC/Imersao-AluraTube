@@ -65,6 +65,13 @@ function RegisterVideo() {
 			});
 	}, []);
 
+	function randomID() {
+		let mathRandom;
+		do{
+			mathRandom = String(Math.floor(Math.random() * 100000000000))
+		}while(mathRandom.length < 10)
+		return mathRandom.slice(0,9);
+	}
 	return (
 		<StyledRegisterVideo>
 			<button
@@ -149,6 +156,7 @@ function RegisterVideo() {
 								}		
 								Supabase.from("video")
 									.insert({
+										id: randomID(),
 										title: formState.values.title,
 										url: formState.values.url,
 										thumb: getThumbnail(formState.values.url),
