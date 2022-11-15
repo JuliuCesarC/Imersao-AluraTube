@@ -17,6 +17,7 @@ export const StyledMenu = styled.nav`
 	.logo {
 		width: 100%;
 		max-width: 80px;
+		min-width: 80px;
 		@media (min-width: 600px) {
 			max-width: 127px;
 		}

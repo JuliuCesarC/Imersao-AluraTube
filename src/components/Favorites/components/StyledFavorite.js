@@ -13,6 +13,7 @@ export const FavoriteDiv = styled.div`
 		display: flex;
 		flex-direction: row;
 		gap: 20px;
+		overflow-x: auto;
 	}
 	img {
 		width: 100px;

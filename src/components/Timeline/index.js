@@ -12,6 +12,7 @@ function Timeline({ searchValue }) {
 	const [playlistName, setPlaylistName] = React.useState([]);
 	const [editMode, setEditMode] = React.useState(false);
 	const [updateSupabaseState, setUpdateSupabaseState] = React.useState(false);
+	const [openEditCategory, setOpenEditCategory] = React.useState(false);
 	let updateSupa = [];
 
 	React.useEffect(() => {
@@ -40,7 +41,7 @@ function Timeline({ searchValue }) {
 	}, [updateSupabaseState]);
 
 	function openEditTags() {
-		editMode ? setEditMode(false) : setEditMode(true);
+		setOpenEditCategory(true);
 		if (updateSupa.length > 0) {
 			updateSupa.forEach((Up) => {
 				Supabase.from("video")
@@ -71,6 +72,13 @@ function Timeline({ searchValue }) {
 
 	return (
 		<StyledTimeline>
+			{openEditCategory && (
+				<div className="editCategory">
+					<div className="cardCategory">
+						<input type="text" />
+					</div>
+				</div>
+			)}
 			{playlistName.map((listName) => {
 				const videos = playlistVideos[listName];
 				return (
@@ -78,7 +86,7 @@ function Timeline({ searchValue }) {
 						<div className="title-edit">
 							{editMode ? (
 								<input
-								id="inputEditTagName"
+									id="inputEditTagName"
 									type="text"
 									onChange={(e) => {
 										editTagName(e, listName);
@@ -91,16 +99,23 @@ function Timeline({ searchValue }) {
 							<img
 								src="img/edit.png"
 								alt="Botão editar categoria."
-								onClick={openEditTags}
+								onClick={(e) => {
+									console.log(listName);
+									console.log(videos);
+									// openEditTags()
+								}}
 							/>
 						</div>
 						<div id="Scrollbar">
-							{console.log(videos)}
 							{videos
 								.filter((searchVideo) => {
-									const titleNormalized = searchVideo.title.toLowerCase();
 									const searchValueNormalized = searchValue.toLowerCase();
-									return titleNormalized.includes(searchValueNormalized);
+									if (searchVideo.title) {
+										const titleNormalized = searchVideo.title.toLowerCase();
+										return titleNormalized.includes(searchValueNormalized);
+									} else {
+										return "".includes(searchValueNormalized);
+									}
 								})
 								.map((video) => {
 									return (
@@ -144,7 +159,7 @@ function Timeline({ searchValue }) {
 						</div>
 					</section>
 				);
-			})}			
+			})}
 		</StyledTimeline>
 	);
 }

@@ -39,7 +39,7 @@ function getThumbnail(url) {
 function RegisterVideo() {
 	const formState = useForm({
 		initialValue: {
-			titulo: "",
+			title: "",
 			url: "",
 			selectCategory: "",
 			addCategory: ""
@@ -147,13 +147,12 @@ function RegisterVideo() {
 									alert("Selecione uma categoria.");
 									return;
 								}		
-								setShowForm(false);
 								Supabase.from("video")
 									.insert({
-										title: formState.values.titulo,
+										title: formState.values.title,
 										url: formState.values.url,
 										thumb: getThumbnail(formState.values.url),
-										playlist: formState.values.selectCategory,
+										playlist: formState.values.selectCategory||submit.target.children[2].value,
 									})
 									.then((res) => {
 										console.log("response inset video", res);

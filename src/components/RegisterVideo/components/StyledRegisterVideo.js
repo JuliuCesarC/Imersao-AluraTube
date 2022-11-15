@@ -12,7 +12,7 @@ export const StyledRegisterVideo = styled.div`
 		border: 0;
 		background-color: red;
 		border-radius: 50%;
-		z-index: 99;
+		z-index: 10;
 		cursor: pointer;
 		transition-property: box-shadow transform;
 		transition-duration: 0.2s;
