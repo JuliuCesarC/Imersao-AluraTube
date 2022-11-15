@@ -13,11 +13,39 @@ const Supabase = createClient(PROJECT_URL, API_KEY);
 function HomePage() {
 	const [searchValue, setSearchValue] = React.useState("");
 
+	function randomID() {
+		let mathRandom;
+		do{
+			mathRandom = String(Math.floor(Math.random() * 100000000000))
+		}while(mathRandom.length < 10)
+		return mathRandom.slice(0,9);
+	}
+
+	function substituiID() {
+		Supabase.from("video")
+			.select("*")
+			.then((dados) => {
+				dados.data.forEach((videoIndividual) => {
+					let ID = videoIndividual.id;
+					Supabase.from("video")
+						.update({ id: randomID() })
+						.match({ id: ID })
+						.then((res) => {
+							console.log(res);
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+				});
+			});
+	}
+
 	return (
 		<>
+			<button onClick={substituiID}>Trocar</button>
 			<Menu searchValue={searchValue} setSearchValue={setSearchValue} />
 			<Header />
-			<Timeline searchValue={searchValue}/>
+			<Timeline searchValue={searchValue} />
 			<Favorites />
 		</>
 	);

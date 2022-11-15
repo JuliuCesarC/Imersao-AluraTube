@@ -1,6 +1,7 @@
 import { StyledTimeline } from "./components/StyledTimeline";
 import React, { useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import EditCategory from "./components/EditCategory";
 
 const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
 const API_KEY =
@@ -40,25 +41,20 @@ function Timeline({ searchValue }) {
 			});
 	}, [updateSupabaseState]);
 
-	function openEditTags() {
-		setOpenEditCategory(true);
-		if (updateSupa.length > 0) {
-			updateSupa.forEach((Up) => {
-				Supabase.from("video")
-					.update({ playlist: Up.next })
-					.match({ playlist: Up.prev })
-					.then((eUpdate) => {
-						console.log(eUpdate);
-					})
-					.catch((err) => {
-						console.log("error insert video", err);
-					});
-			});
-			updateSupabaseState
-				? setUpdateSupabaseState(false)
-				: setUpdateSupabaseState(true);
-			updateSupa = [];
-		}
+	function openCardEditCategory(categoryName, categoryVideos) {
+		setOpenEditCategory({ title: categoryName, videos: categoryVideos });
+
+		// updateSupa.forEach((Up) => {
+		// 	Supabase.from("video")
+		// 		.update({ playlist: Up.next })
+		// 		.match({ playlist: Up.prev })
+		// 		.then((eUpdate) => {
+		// 			console.log(eUpdate);
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log("error insert video", err);
+		// 		});
+		// });
 	}
 	function editTagName(eEdit, list) {
 		let indexName = playlistName.indexOf(list);
@@ -73,11 +69,10 @@ function Timeline({ searchValue }) {
 	return (
 		<StyledTimeline>
 			{openEditCategory && (
-				<div className="editCategory">
-					<div className="cardCategory">
-						<input type="text" />
-					</div>
-				</div>
+				<EditCategory
+					openEditCategory={openEditCategory}
+					setOpenEditCategory={setOpenEditCategory}
+				/>
 			)}
 			{playlistName.map((listName) => {
 				const videos = playlistVideos[listName];
@@ -100,9 +95,7 @@ function Timeline({ searchValue }) {
 								src="img/edit.png"
 								alt="Botão editar categoria."
 								onClick={(e) => {
-									console.log(listName);
-									console.log(videos);
-									// openEditTags()
+									openCardEditCategory(listName, videos);
 								}}
 							/>
 						</div>

@@ -5,25 +5,6 @@ export const StyledTimeline = styled.div`
 	color: ${({ theme }) => theme.textColorBase || "#222222"};
 	width: 100%;
 	transition: all 0.2s;
-	.editCategory{
-		position: fixed;
-		background-color: rgba(0,0,0,0.5);
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100vh;
-		padding: 5%;		
-		z-index: 100;
-		.cardCategory{
-			background-color: ${({ theme }) => theme.backgroundBase || "#F9F9F9"};
-			width: 100%;
-			height: 100%;
-			max-width: 320px;
-			margin: auto;
-			border-radius: 8px;
-			padding: 16px;
-		}
-	}
 	section {
 		width: 100%;
 		padding: 0;
