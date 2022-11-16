@@ -28,12 +28,12 @@ export const StyledTimeline = styled.div`
 			height: 30px;
 			padding: 2px;
 			border-radius: 50%;
-			transition: all .2s;
-			:hover{
+			transition: all 0.2s;
+			:hover {
 				box-shadow: 0 0 5px ${({ theme }) => theme.textColorBase};
 			}
 		}
-		#inputEditTagName{
+		#inputEditTagName {
 			background-color: unset;
 			border: unset;
 			color: ${({ theme }) => theme.textColorBase};
@@ -66,20 +66,19 @@ export const StyledTimeline = styled.div`
 			}
 		}
 		img {
-		aspect-ratio: 16/9;
-    font-weight: 500;
-    object-fit: cover;
-    width: 200px;
-    max-width: 210px;
-    height: auto;
+			aspect-ratio: 16/9;
+			font-weight: 500;
+			object-fit: cover;
+			width: 200px;
+			max-width: 210px;
+			height: auto;
 		}
-		
 	}
-	@keyframes showDeleteBtn{
-		0%{
+	@keyframes showDeleteBtn {
+		0% {
 			transform: scale(0);
 		}
-		100%{
+		100% {
 			transform: scale(1);
 		}
 	}

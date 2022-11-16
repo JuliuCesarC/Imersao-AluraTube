@@ -2,8 +2,8 @@ import React from "react";
 
 export const UpdatePageContext = React.createContext({
 	update: false,
-	changeUpdate: () => {
-		alert("changeUpdate ainda não configurado.");
+	toggleUpdate: () => {
+		alert("toggleUpdate ainda não configurado.");
 	},
 });
 
@@ -18,7 +18,7 @@ function UpdatePageWhenAddVideo(props) {
 		<UpdatePageContext.Provider
 			value={{
 				update: updatePage,
-				changeUpdate: changeUpdatePage,
+				toggleUpdate: changeUpdatePage,
 			}}
 		>
 			{props.children}

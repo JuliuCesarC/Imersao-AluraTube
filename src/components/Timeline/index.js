@@ -13,7 +13,7 @@ function Timeline({ searchValue }) {
 	const [playlistVideos, setPlaylistVideos] = React.useState({});
 	const [playlistName, setPlaylistName] = React.useState([]);
 	const [openEditCategory, setOpenEditCategory] = React.useState(false);
-	const updateContext = React.useContext(UpdatePageContext)
+	const updateContext = React.useContext(UpdatePageContext);
 
 	React.useEffect(() => {
 		Supabase.from("video")

@@ -18,15 +18,19 @@ function useForm(props) {
 			});
 			// Utilizando o array com uma variável dentro de um objeto, podemos utilizar o valor dessa variável como nome do campo no objeto.
 		},
+		getUrlID: (url) => {
+			setUrlImg(getThumbnail(url));
+		},
 		clearForm() {
 			setValues(props.initialValue);
+			setUrlImg('')
 		},
 	};
 }
 
 const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
 const API_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
 const Supabase = createClient(PROJECT_URL, API_KEY);
 
 function getThumbnail(url) {
@@ -37,20 +41,20 @@ function getThumbnail(url) {
 	}
 }
 
-function RegisterVideo() {
+export default function RegisterVideo() {
 	const formState = useForm({
 		initialValue: {
 			title: "",
 			url: "",
 			selectCategory: "",
-			addCategory: ""
+			addCategory: "",
 		},
 	});
 	const [showForm, setShowForm] = React.useState(false);
 	const [changeAddVideoToAddCategory, setChangeAddVideoToAddCategory] =
-	React.useState(false);
+		React.useState(false);
 	const [selectOptions, setSelectOptions] = React.useState([]);
-	const updateContext = React.useContext(UpdatePageContext)
+	const updateContext = React.useContext(UpdatePageContext);
 
 	React.useEffect(() => {
 		Supabase.from("video")
@@ -65,14 +69,14 @@ function RegisterVideo() {
 			.catch((err) => {
 				console.log("error insert video", err);
 			});
-	}, []);
+	}, [updateContext.update]);
 
 	function randomID() {
 		let mathRandom;
-		do{
-			mathRandom = String(Math.floor(Math.random() * 100000000000))
-		}while(mathRandom.length < 10)
-		return mathRandom.slice(0,9);
+		do {
+			mathRandom = String(Math.floor(Math.random() * 100000000000));
+		} while (mathRandom.length < 10);
+		return mathRandom.slice(0, 9);
 	}
 	return (
 		<StyledRegisterVideo>
@@ -96,7 +100,7 @@ function RegisterVideo() {
 										e.target.parentNode.children[1].classList.remove("active");
 										e.target.classList.add("active");
 										setChangeAddVideoToAddCategory(false);
-										formState.clearForm()
+										formState.clearForm();
 									}
 								}}
 							>
@@ -110,7 +114,7 @@ function RegisterVideo() {
 										e.target.parentNode.children[0].classList.remove("active");
 										e.target.classList.add("active");
 										setChangeAddVideoToAddCategory(true);
-										formState.clearForm()
+										formState.clearForm();
 									}
 								}}
 							>
@@ -121,22 +125,27 @@ function RegisterVideo() {
 								className="close-modal"
 								onClick={() => {
 									setShowForm(false);
-									setChangeAddVideoToAddCategory(false)
+									setChangeAddVideoToAddCategory(false);
+									formState.clearForm()
 								}}
 							>
 								✖
 							</button>
 						</div>
 						{changeAddVideoToAddCategory ? (
-							<form id="formAddCategory" onSubmit={(submit)=>{
-								submit.preventDefault();
-								if(submit.target.children[0].value.trim() == ''){
-									alert('ERRO nome da categoria invalido.')
-									return
-								}
-								let newCategory = submit.target.children[0].value.toLowerCase()
-								setSelectOptions([...selectOptions, newCategory])
-							}}>
+							<form
+								id="formAddCategory"
+								onSubmit={(submit) => {
+									submit.preventDefault();
+									if (submit.target.children[0].value.trim() == "") {
+										alert("ERRO nome da categoria invalido.");
+										return;
+									}
+									let newCategory =
+										submit.target.children[0].value.toLowerCase();
+									setSelectOptions([...selectOptions, newCategory]);
+								}}
+							>
 								<input
 									type="text"
 									name="addCategory"
@@ -150,29 +159,33 @@ function RegisterVideo() {
 								</button>
 							</form>
 						) : (
-							<form id="formAdd" onSubmit={(submit) => {
-								submit.preventDefault();
-								if (submit.target.children[2].value == "disabled") {
-									alert("Selecione uma categoria.");
-									return;
-								}		
-								Supabase.from("video")
-									.insert({
-										id: randomID(),
-										title: formState.values.title,
-										url: formState.values.url,
-										thumb: getThumbnail(formState.values.url),
-										playlist: formState.values.selectCategory||submit.target.children[2].value,
-									})
-									.then((res) => {
-										console.log("response inset video", res);
-										updateContext.changeUpdate()
-									})
-									.catch((err) => {
-										console.log("error insert video", err);
-									});
-								formState.clearForm();
-							}}
+							<form
+								id="formAdd"
+								onSubmit={(submit) => {
+									submit.preventDefault();
+									if (submit.target.children[2].value == "disabled") {
+										alert("Selecione uma categoria.");
+										return;
+									}
+									Supabase.from("video")
+										.insert({
+											id: randomID(),
+											title: formState.values.title,
+											url: formState.values.url,
+											thumb: getThumbnail(formState.values.url),
+											playlist:
+												formState.values.selectCategory ||
+												submit.target.children[2].value,
+										})
+										.then((res) => {
+											console.log("response inset video", res);
+											updateContext.toggleUpdate();
+										})
+										.catch((err) => {
+											console.log("error insert video", err);
+										});
+									formState.clearForm();
+								}}
 							>
 								<input
 									type="text"
@@ -187,7 +200,10 @@ function RegisterVideo() {
 									name="url"
 									placeholder="URL"
 									value={formState.values.url}
-									onChange={formState.handleChange}
+									onChange={(e) => {
+										formState.handleChange(e);
+										formState.getUrlID(formState.values.url);
+									}}
 									required="required"
 								/>
 								<select
@@ -208,7 +224,7 @@ function RegisterVideo() {
 								<button type="submit" className="ADD">
 									Adicionar
 								</button>
-								{/* {formState.urlImg && <img src={formState.urlImg} />} */}
+								{formState.urlImg && <img src={formState.urlImg} />}
 							</form>
 						)}
 					</div>
@@ -217,5 +233,3 @@ function RegisterVideo() {
 		</StyledRegisterVideo>
 	);
 }
-
-export default RegisterVideo;
