@@ -24,11 +24,10 @@ export const StyledRegisterVideo = styled.div`
 		}
 	}
 	#pageForm {
+		position: fixed;
 		width: 100%;
 		height: 100vh;
-		padding: 2% 5%;
 		background-color: rgba(0, 0, 0, 0.5);
-		position: fixed;
 		top: 0;
 		bottom: 0;
 		left: 0;
@@ -36,12 +35,14 @@ export const StyledRegisterVideo = styled.div`
 		z-index: 100;
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		& > div {
 			position: relative;
 			display: flex;
 			flex-direction: column;
 			border-radius: 8px;
 			width: 320px;
+			height: 420px;
 			background-color: ${({ theme }) => theme.backgroundLevel2};
 			padding: 16px;
 			overflow: hidden;
@@ -116,6 +117,7 @@ export const StyledRegisterVideo = styled.div`
 		font-size: 15px;
 		background-color: red;
 		padding: 8px 16px;
+		margin-bottom: 10px;
 		border: none;
 		border-radius: 2px;
 		cursor: pointer;
@@ -123,6 +125,7 @@ export const StyledRegisterVideo = styled.div`
 	}
 	#formAddCategory{
 		width: 100%;
+		padding: 10px 0;
 		input {
 			width: 100%;
 			border-radius: 2px;
@@ -164,10 +167,12 @@ export const StyledRegisterVideo = styled.div`
 			color: ${({ theme }) => theme.textColorBase};
 		}		
 		img {
-			width: 90%;
-			margin: auto;
-			margin-top: 20px;
-			outline: 3px solid ${({ theme }) => theme.backgroundBase};
+			width: 100%;
+			aspect-ratio: 16/9;
+			object-fit: cover;
+			padding: 5px;			
+			border: 3px solid ${({ theme }) => theme.backgroundBase};
+			border-radius: 8px;
 			outline-offset: 3px;
 		}
 	}

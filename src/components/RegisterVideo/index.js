@@ -16,10 +16,10 @@ function useForm(props) {
 				...values,
 				[nomeDoCampo]: value,
 			});
+			if(nomeDoCampo == 'url'){
+				setUrlImg(getThumbnail(value));
+			}
 			// Utilizando o array com uma variável dentro de um objeto, podemos utilizar o valor dessa variável como nome do campo no objeto.
-		},
-		getUrlID: (url) => {
-			setUrlImg(getThumbnail(url));
 		},
 		clearForm() {
 			setValues(props.initialValue);
@@ -202,7 +202,6 @@ export default function RegisterVideo() {
 									value={formState.values.url}
 									onChange={(e) => {
 										formState.handleChange(e);
-										formState.getUrlID(formState.values.url);
 									}}
 									required="required"
 								/>
