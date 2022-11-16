@@ -5,6 +5,7 @@ import ColorModeProvider, {
 	ColorModeContext,
 } from "../src/components/Menu/components/ColorMode";
 import RegisterVideo from "../src/components/RegisterVideo";
+import UpdatePageWhenAddVideo from "../src/components/RegisterVideo/components/UpdatePage";
 
 const theme = {
 	dark: {
@@ -25,7 +26,9 @@ const theme = {
 function ProviderWrapper(props) {
 	return (
 		<ColorModeProvider initialValue={"dark"}>
-			{props.children}
+			<UpdatePageWhenAddVideo>
+				{props.children}
+			</UpdatePageWhenAddVideo>
 		</ColorModeProvider>
 	);
 }

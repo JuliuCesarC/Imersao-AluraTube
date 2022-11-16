@@ -2,6 +2,7 @@ import { StyledTimeline } from "./components/StyledTimeline";
 import React, { useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import EditCategory from "./components/EditCategory";
+import { UpdatePageContext } from "../RegisterVideo/components/UpdatePage";
 
 const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
 const API_KEY =
@@ -12,6 +13,7 @@ function Timeline({ searchValue }) {
 	const [playlistVideos, setPlaylistVideos] = React.useState({});
 	const [playlistName, setPlaylistName] = React.useState([]);
 	const [openEditCategory, setOpenEditCategory] = React.useState(false);
+	const updateContext = React.useContext(UpdatePageContext)
 
 	React.useEffect(() => {
 		Supabase.from("video")
@@ -31,13 +33,12 @@ function Timeline({ searchValue }) {
 				if (arrayPlayNames.length > 0) {
 					arrayPlayNames.reduce((prev, next) => Object.assign(prev, next));
 					setPlaylistName(Object.keys(arrayPlayNames[0]).sort());
-					console.log(playlistName);
 				} else {
 					arrayPlayNames = [];
 				}
 				setPlaylistVideos(arrayPlayNames[0]);
 			});
-	}, [openEditCategory]);
+	}, [openEditCategory, updateContext.update]);
 
 	function openCardEditCategory(categoryName, categoryVideos) {
 		setOpenEditCategory({ title: categoryName, videos: categoryVideos });

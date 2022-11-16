@@ -1,6 +1,7 @@
 import React from "react";
 import { StyledRegisterVideo } from "./components/StyledRegisterVideo";
 import { createClient } from "@supabase/supabase-js";
+import { UpdatePageContext } from "./components/UpdatePage";
 
 function useForm(props) {
 	const [values, setValues] = React.useState(props.initialValue);
@@ -25,7 +26,7 @@ function useForm(props) {
 
 const PROJECT_URL = "https://cuumiwqjbuglmdcukchy.supabase.co";
 const API_KEY =
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1dW1pd3FqYnVnbG1kY3VrY2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjgxNzgyOTcsImV4cCI6MTk4Mzc1NDI5N30.W6js41CqAvkOEo1ZSTjN5gKC5cvYnDOdzn-oBubiRiQ";
 const Supabase = createClient(PROJECT_URL, API_KEY);
 
 function getThumbnail(url) {
@@ -47,8 +48,9 @@ function RegisterVideo() {
 	});
 	const [showForm, setShowForm] = React.useState(false);
 	const [changeAddVideoToAddCategory, setChangeAddVideoToAddCategory] =
-		React.useState(false);
+	React.useState(false);
 	const [selectOptions, setSelectOptions] = React.useState([]);
+	const updateContext = React.useContext(UpdatePageContext)
 
 	React.useEffect(() => {
 		Supabase.from("video")
@@ -164,6 +166,7 @@ function RegisterVideo() {
 									})
 									.then((res) => {
 										console.log("response inset video", res);
+										updateContext.changeUpdate()
 									})
 									.catch((err) => {
 										console.log("error insert video", err);
